@@ -1,0 +1,16 @@
+{
+  "name": "recreate-react-app",
+  "version": "0.0.1",
+  "description": "Minimal React app template with Webpack 5, Babel, and TypeScript",
+  "license": "MIT",
+  "author": "Cliff Zhang <cliffzhang08@gmail.com>",
+  "main": "./bin/index.js",
+  "bin": {
+    "recreate-react-app": "./bin/index.js"
+  },
+  "scripts": {},
+  "dependencies": {
+    "fs-extra": "^10.1.0",
+    "yauzl": "^2.10.0"
+  }
+}
