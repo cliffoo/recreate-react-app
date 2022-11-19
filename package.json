@@ -1,6 +1,6 @@
 {
   "name": "recreate-react-app",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Minimal React app template with Webpack 5, Babel, and TypeScript",
   "license": "MIT",
   "author": "Cliff Zhang <cliffzhang08@gmail.com>",
