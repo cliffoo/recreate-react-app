@@ -1,30 +1,32 @@
-const path = require("path");
-const fse = require("fs-extra");
-const { fromBuffer } = require("yauzl");
+import path from "path";
+import fse from "fs-extra";
+import type { Buffer } from "buffer";
+import { fromBuffer } from "yauzl";
+import type { Entry } from "yauzl";
 
-const isDir = str => /\/$/.test(str);
-const isAtRoot = str => !(/\//.test(str));
+const isDir = (data: string) => /\/$/.test(data);
+const isAtRoot = (data: string) => !/\//.test(data);
 const afterFirstForwardSlash = /(?<=\/).*/;
 const beforeFirstForwardSlash = /.*(?<=\/)/;
 
-function getRelativePaths(entry) {
-  const relativeFilePath = entry.fileName.match(afterFirstForwardSlash)[0];
+function getRelativePaths(entry: Entry) {
+  const relativeFilePath = entry.fileName.match(afterFirstForwardSlash)![0];
   return {
     relativeDirPath: isAtRoot(relativeFilePath)
       ? "./"
-      : relativeFilePath.match(beforeFirstForwardSlash)[0],
-    relativeFilePath
+      : relativeFilePath.match(beforeFirstForwardSlash)![0],
+    relativeFilePath,
   };
-};
+}
 
-function unzip(buffer, destDirName) {
+export default function unzip(buffer: Buffer, destDirName: string) {
   return new Promise((resolve, reject) => {
     fromBuffer(buffer, { lazyEntries: true }, (err, zipFile) => {
       if (err) reject(err);
 
       zipFile.readEntry();
       zipFile
-        .on("entry", entry => {
+        .on("entry", (entry: Entry) => {
           if (isDir(entry.fileName)) {
             zipFile.readEntry();
           } else {
@@ -49,5 +51,3 @@ function unzip(buffer, destDirName) {
     });
   });
 }
-
-module.exports = unzip;
